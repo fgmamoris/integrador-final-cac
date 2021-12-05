@@ -1,5 +1,5 @@
 <%-- 
-    Document   : nuevo
+    Document   : Nuevo Artículo
     Created on : 16/11/2021, 20:20:34
     Author     : Federico Mamoris
 --%>

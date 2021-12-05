@@ -34,39 +34,27 @@
             <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
             <!-- JavaScript Bundle with Popper -->
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+            <script src="https://kit.fontawesome.com/6ed7d13145.js" crossorigin="anonymous"></script>
     </head>
 
     <body class="d-flex flex-column h-100">
         <header>
             <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
                 <div class="container-fluid" id="nav-bar">
-                    <a class="navbar-brand font-weight-bold" href="index.html"> <img src="static/images/codoacodo.png" width="80" height="55" alt="">
+                    <a class="navbar-brand font-weight-bold" href="index.jsp"> <img src="static/images/codoacodo.png" width="80" height="55" alt="">
                             Codo a Codo - FullStack con Java</a>
                 </div>
             </nav>
         </header>
         <!-- Begin page content -->
-        <main class="my-5 container ">
-            <div class="ccol-md-9 ml-sm-auto col-lg-10 px-md-4 my-5" style="width: 85%">            
-                <h1>Bienvenidos!</h1>
-                <h3>Proyecto final del curso Codo a Codo</h3>
-                <p>Un sistema desarrollado en Java para el servicio Backend con Servlet, utilizando Maven para la inyección de dependencias, entre ellas mysql para la persistencia de datos, html para las páginas, y bootstrap para el maquetado de las dichas páginas.</p>
-                <p>El proyecto implica un realizar un CRUD, que Un sistema desarrollado en Java para el servicio Backend con Servlet, utilizando Maven para la inyección de dependencias, entre ellas mysql para la persistencia de datos, html para las páginas, y bootstrap para el maquetado de las dichas páginas.</p>
-                <p>PAra verificar el funcionamiento del programa <a href="ArticuloController?action=show" style="text-decoration: none">Ingrese aqui</a></p>
-                <p>El código del presente proyecto puede encontrase en el <a href="index.html" style="text-decoration: none">repositorio</a> de mi autoría</p>
-            </div>
-            <div class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+        <main class="my-5 container" >
+            <div class="col-md-9 ml-sm-auto col-lg-10 px-md-4" style="margin-top: 50px;">
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                    <h2>Administraci&oacute;n de articulos</h2>
+                    <h2>Administraci&oacute;n de art&iacute;culos</h2>
                 </div>
                 <%
                     List<Articulo> resultado = (List<Articulo>) request.getAttribute("lista");
-                    if (resultado == null) {
-                        for (int i = 0; i < resultado.size(); i++) {
-                            String ruta = "AlumnosController?action=showEdit&id=" + resultado.get(i).getId();
-                            String rutaE = "AlumnosController?action=remove&id=" + resultado.get(i).getId();;
-
-
+                    if (resultado != null) {
                 %>
                 <div class="table-responsive">
                     <table class="table table-striped table-sm container">
@@ -80,30 +68,52 @@
                                 <th>Editar</th>
                                 <th>Eliminar</th>
                             </tr>
-                        </thead>
-                        <tbody th:each = "usuario : ${listadoUsuarios}">
-                            <tr>
+                        </thead>                   
+                        <tbody >
+                            <%
+                                for (int i = 0; i < resultado.size(); i++) {
+                                    String rutaEdit = "AlumnosController?action=showEdit&id=" + resultado.get(i).getId();
+                                    String rutaRemove = "AlumnosController?action=remove&id=" + resultado.get(i).getId();;
+                            %>
+                            <tr >
                                 <td><%=resultado.get(i).getId()%></td> 
                                 <td><%=resultado.get(i).getCode()%></td> 
                                 <td><%=resultado.get(i).getName()%></td> 
                                 <td><%=resultado.get(i).getDescription()%></td> 
                                 <td><%=resultado.get(i).getPrice()%></td> 
-                                <td class="text-center"><a class="text-success" href=<%=ruta%>><i class="fas fa-angle-double-down"></i></td> 
-                                <td class="text-center" ><a class="text-success" href=<%=rutaE%>><i class="fas fa-angle-double-down"></i></td>         
-                            </tr>                   
 
+                                <td>  <a href=<%=rutaEdit%> >
+                                        <button type="button" class="btn btn-warning">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    </a></td> 
+                                <td >  <a href=<%=rutaRemove%> >
+                                        <button type="button" class="btn btn-danger">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </a></td> 
+                            </tr>                   
+                            <%
+                                }
+                            %>
                         </tbody>
                     </table>
-                    <%                            }
+                    <%
                         }
                     %>
                 </div>
 
-                <a href="#" th:href="@{/gerente/usuario?id=0}" >
+                <a href="ArticuloController?action=new" >
                     <button class="btn btn-primary" type="button">
                         <span data-feather="plus-circle"></span>
-                        </span> Agregar Usuario</button>
+                        </span> Agregar Art&iacute;culo</button>
                 </a>
+                <a href="ArticuloController?action=index" >
+                    <button class="btn btn-secondary" type="button">
+                        <span data-feather="plus-circle"></span>
+                        </span> Volver</button>
+                </a>
+
 
         </main>
         <footer class="page-footer font-small blue fixed-bottom text-light" style="background-color: #3f3c39; color: white ">

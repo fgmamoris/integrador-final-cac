@@ -55,11 +55,9 @@ public class ArticuloController extends HttpServlet {
         try {
             switch (action) {
                 case "index":
-                    System.out.println("index");
                     index(request, response);
                     break;
                 case "":
-                    System.out.println("vacio");
                     index(request, response);
                     break;
                 case "new":
@@ -116,9 +114,6 @@ public class ArticuloController extends HttpServlet {
 
     private void index(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
         RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
-        List<Articulo> listaArticulos = articuloDAO.getAll();
-        request.setAttribute("lista", listaArticulos);
-        System.out.println(listaArticulos.size());
         dispatcher.forward(request, response);
     }
 
