@@ -139,18 +139,22 @@ public class ArticuloController extends HttpServlet {
 
     private void showEdit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         Articulo articuloEncontrado = articuloDAO.read(Integer.parseInt(request.getParameter("id")));
-        System.out.println(articuloEncontrado.toString());
+        System.out.println(articuloEncontrado.getDescription());
         request.setAttribute("articulo", articuloEncontrado);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/vista/edit.jsp");
         dispatcher.forward(request, response);
     }
 
     private void edit(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
-        Articulo articulo;
-        articulo = new Articulo(0, request.getParameter("code"), request.getParameter("name"), request.getParameter("description"), Double.parseDouble(request.getParameter("price")));
-        articuloDAO.update(articulo);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/vista/index.jsp");
-        dispatcher.forward(request, response);
+
+        Articulo articulo = new Articulo(Integer.parseInt(request.getParameter("id")), request.getParameter("code"), request.getParameter("name"), request.getParameter("description"), Double.parseDouble(request.getParameter("price")));
+        System.out.println(articulo.toString());
+        if (articuloDAO.update(articulo)) {
+            showAll(request, response);
+        } else {
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
+            dispatcher.forward(request, response);
+        }
 
     }
 

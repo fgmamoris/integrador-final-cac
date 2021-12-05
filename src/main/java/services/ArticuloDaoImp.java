@@ -3,7 +3,6 @@
 package services;
 
 import config.bbdd.DatabaseConnection;
-import config.bbdd.DatabaseConnectionSingleton;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -89,10 +88,11 @@ public class ArticuloDaoImp implements ArticuloDao {
 
         try {
             ps = conn.prepareStatement("UPDATE articulos SET code=?,name=?,description=?,price=? WHERE id=?");
-            ps.setString(1, "code");
-            ps.setString(2, "name");
-            ps.setString(3, "description");
-            ps.setString(4, "price");
+            ps.setString(1, articulo.getCode());
+            ps.setString(2, articulo.getName());
+            ps.setString(3, articulo.getDescription());
+            ps.setDouble(4, articulo.getPrice());
+            ps.setInt(5, articulo.getId());
             ps.execute();
             return true;
         } catch (SQLException e) {
