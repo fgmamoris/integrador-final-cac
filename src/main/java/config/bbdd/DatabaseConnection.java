@@ -1,6 +1,5 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ 
  */
 package config.bbdd;
 
@@ -14,48 +13,24 @@ import java.sql.SQLException;
  */
 public class DatabaseConnection {
 
-    private static DatabaseConnection instance = null;
     private static Connection conn = null;
     private static String host = "jdbc:mysql://localhost:3306/crud2159";
     private static String username = "root";
     private static String password = "";
-    private static String driver = "com.mysql.jdbc.Driver";
-
-    private DatabaseConnection() {
-        try {
-            Class.forName(driver);
-            this.conn = DriverManager.getConnection(host, username, password);
-            System.out.println("BASE DE DATOS ON");
-        } catch (ClassNotFoundException | SQLException e) {
-            System.out.println("ERROR ->" + e);
-            System.out.println("BASE DE DATOS OFF");
-        }
-
-    }
+    private static String driver = "com.mysql.cj.jdbc.Driver";
+    private static String unicode = "?useSSL=false&autoReconnect=true&useUnicode=yes&characterEncoding=UTF-8";
 
     public static Connection getConnection() {
-
-        if (conn == null) {
-            new DatabaseConnection();
+        try {
+            Class.forName(driver);
+            conn = DriverManager.getConnection(host + unicode, username, password);
+            System.out.println("BASE DE DATOS ON");
+        } catch (ClassNotFoundException | SQLException e) {
+            System.out.println("Error ->" + e.getMessage());
+            System.out.println("No se puede conectar!");
+            throw new RuntimeException(e);
         }
+
         return conn;
     }
-
-    public static DatabaseConnection getInstance() {
-        try {
-            if (instance == null) {
-                instance = new DatabaseConnection();
-
-            } else if (instance.getConnection().isClosed()) {
-                instance = new DatabaseConnection();
-            }
-
-            return instance;
-        } catch (SQLException e) {
-            System.out.println("ERROR ->" + e);
-
-        }
-        return instance;
-    }
-
 }

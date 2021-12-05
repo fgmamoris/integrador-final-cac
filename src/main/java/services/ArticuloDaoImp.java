@@ -3,6 +3,7 @@
 package services;
 
 import config.bbdd.DatabaseConnection;
+import config.bbdd.DatabaseConnectionSingleton;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,12 +19,21 @@ import dao.ArticuloDao;
  */
 public class ArticuloDaoImp implements ArticuloDao {
 
-    private DatabaseConnection connection;
+    private Connection conn;
+
+    public ArticuloDaoImp() {
+        try {
+            conn = DatabaseConnection.getConnection();
+
+        } catch (Exception e) {
+            System.out.println("Error ->" + e);
+        }
+    }
 
     @Override
     public boolean create(Articulo articulo) {
         PreparedStatement ps;
-        Connection conn = DatabaseConnection.getConnection();
+
         try {
             ps = conn.prepareStatement("INSERT INTO articulo(code,name, description, price) VALUES (?,?,?,?)");
             ps.setString(1, articulo.getCode());
@@ -35,7 +45,9 @@ public class ArticuloDaoImp implements ArticuloDao {
         } catch (SQLException e) {
             System.out.println(e.toString());
             return false;
-        } finally {
+        }
+        /*finally {
+            System.out.println("Finali create");
             try {
                 if (conn != null) {
                     conn.close();
@@ -43,14 +55,13 @@ public class ArticuloDaoImp implements ArticuloDao {
             } catch (SQLException ex) {
                 System.out.println(ex.toString());
             }
-        }
+        }*/
     }
 
     @Override
     public Articulo read(int idArticulo) {
         PreparedStatement ps;
         ResultSet rs;
-        Connection conn = DatabaseConnection.getConnection();
         Articulo articulo = null;
         try {
             ps = conn.prepareStatement("SELECT * FROM articulos WHERE id=?");
@@ -60,7 +71,7 @@ public class ArticuloDaoImp implements ArticuloDao {
                 int id = rs.getInt("id");
                 String code = rs.getString("code");
                 String name = rs.getString("name");
-                String description = rs.getString("descrption");
+                String description = rs.getString("description");
                 Double price = rs.getDouble("price");
                 articulo = new Articulo(id, code, name, description, price);
             }
@@ -68,21 +79,14 @@ public class ArticuloDaoImp implements ArticuloDao {
         } catch (SQLException e) {
             System.out.println(e.toString());
             return articulo;
-        } finally {
-            try {
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (SQLException ex) {
-                System.out.println(ex.toString());
-            }
         }
+
     }
 
     @Override
     public boolean update(Articulo articulo) {
         PreparedStatement ps;
-        Connection conn = DatabaseConnection.getConnection();
+
         try {
             ps = conn.prepareStatement("UPDATE articulos SET code=?,name=?,description=?,price=? WHERE id=?");
             ps.setString(1, "code");
@@ -94,21 +98,14 @@ public class ArticuloDaoImp implements ArticuloDao {
         } catch (SQLException e) {
             System.out.println(e.toString());
             return false;
-        } finally {
-            try {
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (SQLException ex) {
-                System.out.println(ex.toString());
-            }
         }
+
     }
 
     @Override
     public boolean delete(int idArticulo) {
         PreparedStatement ps;
-        Connection conn = DatabaseConnection.getConnection();
+
         try {
             ps = conn.prepareStatement("DELETE FROM articulos WHERE id=?");
             ps.setInt(1, idArticulo);
@@ -117,15 +114,8 @@ public class ArticuloDaoImp implements ArticuloDao {
         } catch (SQLException e) {
             System.out.println(e.toString());
             return false;
-        } finally {
-            try {
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (SQLException ex) {
-                System.out.println(ex.toString());
-            }
         }
+
     }
 
     @Override
@@ -133,7 +123,6 @@ public class ArticuloDaoImp implements ArticuloDao {
         PreparedStatement ps;
         ResultSet rs;
         List<Articulo> lista = new ArrayList<>();
-        Connection conn = DatabaseConnection.getConnection();
         try {
             ps = conn.prepareStatement("SELECT * FROM articulos");
             rs = ps.executeQuery();

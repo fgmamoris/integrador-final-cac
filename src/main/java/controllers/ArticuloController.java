@@ -1,12 +1,11 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
+ 
  */
 package controllers;
 
-import dao.ArticuloDao;
+import config.bbdd.DatabaseConnection;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
@@ -31,10 +30,12 @@ public class ArticuloController extends HttpServlet {
     @Override
     public void init() {
         try {
-
+            Connection conn = null;
+            DatabaseConnection con = new DatabaseConnection();
+            conn = con.getConnection();
             articuloDAO = new ArticuloDaoImp();
         } catch (Exception e) {
-            // TODO: handle exception
+            System.out.println("Error ->" + e);
         }
     }
 
@@ -51,7 +52,6 @@ public class ArticuloController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String action = request.getParameter("action");
-        System.out.println(action);
         try {
             switch (action) {
                 case "index":
@@ -138,9 +138,10 @@ public class ArticuloController extends HttpServlet {
     }
 
     private void showEdit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-        Articulo articulo = articuloDAO.read(Integer.parseInt(request.getParameter("id")));
-        request.setAttribute("articulo", articulo);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/vista/editar.jsp");
+        Articulo articuloEncontrado = articuloDAO.read(Integer.parseInt(request.getParameter("id")));
+        System.out.println(articuloEncontrado.toString());
+        request.setAttribute("articulo", articuloEncontrado);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/vista/edit.jsp");
         dispatcher.forward(request, response);
     }
 
@@ -154,8 +155,9 @@ public class ArticuloController extends HttpServlet {
     }
 
     private void remove(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
+        Articulo articulo = articuloDAO.read(Integer.parseInt(request.getParameter("id")));
         articuloDAO.delete(Integer.parseInt(request.getParameter("id")));
-        RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
-        dispatcher.forward(request, response);
+        showAll(request, response);
+
     }
 }

@@ -12,11 +12,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
     <!DOCTYPE html>
-
-    <jsp:include page="head.jsp" />
-
+    <jsp:include page="/head.jsp" />
     <body class="d-flex flex-column h-100">
-        <jsp:include page="header.jsp" />
+        <jsp:include page="/header.jsp" />
         <!-- Begin page content -->
         <main class="my-5 container ">
             <div class="ccol-md-9 ml-sm-auto col-lg-10 px-md-4 my-5" style="width: 85%">            
@@ -28,7 +26,7 @@
             </div>
 
         </main>
-        <jsp:include page="footer.jsp" />
+        <jsp:include page="/footer.jsp" />
 
     </body>
 </html>
