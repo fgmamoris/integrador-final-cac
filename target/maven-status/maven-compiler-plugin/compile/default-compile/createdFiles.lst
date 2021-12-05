@@ -1,0 +1,6 @@
+controllers\ArticuloController.class
+config\bbdd\DatabaseConnection.class
+models\Articulo.class
+controllers\AlumnosController.class
+services\ArticuloDaoImp.class
+dao\ArticuloDao.class
