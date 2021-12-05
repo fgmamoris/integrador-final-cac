@@ -34,7 +34,7 @@ public class ArticuloDaoImp implements ArticuloDao {
         PreparedStatement ps;
 
         try {
-            ps = conn.prepareStatement("INSERT INTO articulo(code,name, description, price) VALUES (?,?,?,?)");
+            ps = conn.prepareStatement("INSERT INTO articulos (code,name, description, price) VALUES (?,?,?,?)");
             ps.setString(1, articulo.getCode());
             ps.setString(2, articulo.getName());
             ps.setString(3, articulo.getDescription());

@@ -128,8 +128,7 @@ public class ArticuloController extends HttpServlet {
     private void register(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         Articulo articulo = new Articulo(0, request.getParameter("code"), request.getParameter("name"), request.getParameter("description"), Double.parseDouble(request.getParameter("price")));
         articuloDAO.create(articulo);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("vista/articulos.jsp");
-        dispatcher.forward(request, response);
+        showAll(request, response);
     }
 
     private void newData(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
