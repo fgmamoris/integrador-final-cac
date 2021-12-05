@@ -24,28 +24,28 @@
                     <div class="row g-3">
                         <div class="col-sm-6">
                             <label for="codeLabel" class="form-label">Código</label>
-                            <input type="text" class="form-control" id="code" name="code"placeholder="" value=<%=resultado.getCode()%> required>
+                            <input type="text"max="40" minlength="5"   class="form-control" id="code" name="code"placeholder="" value=<%=resultado.getCode()%> required>
                             <div class="invalid-feedback">
                                 El código es requerido.
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <label for="nameLabel" class="form-label">Nombre</label>
-                            <input type="text" class="form-control" id="name" name="name" placeholder="" value=<%=resultado.getName()%>  required>
+                            <input type="text" max="40" minlength="5" class="form-control" id="name" name="name" placeholder="" value=<%=resultado.getName()%>  required>
                             <div class="invalid-feedback">
                                 El nombre es requerido.
                             </div>
                         </div>                      
                         <div class="col-md-6">
                             <label class="form-label" for="descriptionLabel">Descripci&oacute;n del art&iacute;culo</label>
-                            <textarea class="form-control" minlength="5" id="description" name="description" value=<%=resultado.getDescription()%>  rows="4" required><%=resultado.getDescription()%> </textarea>
+                            <textarea class="form-control"max="100" minlength="5"  id="description" name="description" value=<%=resultado.getDescription()%>  rows="4" required><%=resultado.getDescription()%> </textarea>
                             <div class="invalid-feedback">
                                 Debe ingresar una descripci&oacute;n.
                             </div>
                         </div>
                         <div class="col-md-6">
                             <label for="nampriceLabel" class="form-label">Precio</label>
-                            <input type="text" class="form-control" id="price" name="price" placeholder="" value=<%=resultado.getPrice()%>  required>
+                            <input type="text" class="form-control" type=number step=0.01 min="0.01"id="price" name="price" placeholder="" value=<%=resultado.getPrice()%>  required>
                             <div class="invalid-feedback">
                                 El precio es requerido.
                             </div>
